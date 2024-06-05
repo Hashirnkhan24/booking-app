@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import DesktopLogo from "../../public/airbnb-desktop.png";
 import MobileLogo from "../../public/airbnb-mobile.webp";
+import UserNav from "./UserNav";
 
 function Navbar() {
   return (
@@ -21,9 +22,12 @@ function Navbar() {
               className="w-12 block lg:hidden"
             />
           </Link>
+
           <div className="rounded-full border px-5 py-2">
             <h2>Hello From Search</h2>
           </div>
+
+          <UserNav />
         </div>
       </nav>
     </>

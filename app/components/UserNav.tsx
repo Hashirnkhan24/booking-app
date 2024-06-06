@@ -9,9 +9,14 @@ import React from "react";
 import {
   RegisterLink,
   LoginLink,
+  LogoutLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
-function UserNav() {
+async function UserNav() {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+
   return (
     <>
       <DropdownMenu>
@@ -21,7 +26,10 @@ function UserNav() {
             {
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
+                src={
+                  user?.picture ??
+                  "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
+                }
                 alt="User Image"
                 className="rounded-full h-8 w-8 hidden lg:block"
               />
@@ -29,12 +37,22 @@ function UserNav() {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[200px]">
-          <DropdownMenuItem>
-            <RegisterLink className="w-full">Register</RegisterLink>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <LoginLink className="w-full">Login</LoginLink>
-          </DropdownMenuItem>
+          {user ? (
+            <>
+              <DropdownMenuItem>
+                <LogoutLink className="w-full">Logout</LogoutLink>
+              </DropdownMenuItem>
+            </>
+          ) : (
+            <>
+              <DropdownMenuItem>
+                <RegisterLink className="w-full">Register</RegisterLink>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <LoginLink className="w-full">Login</LoginLink>
+              </DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </>
